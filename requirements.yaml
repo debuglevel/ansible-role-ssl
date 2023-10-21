@@ -1,0 +1,14 @@
+---
+collections:
+  # Already needed for molecule.
+  - name: community.docker
+    version: 2.1.1
+  # Already needed for molecule.
+  - name: ansible.posix  
+    version: 1.5.4
+
+# roles:
+#   - name: geerlingguy.docker
+#     version: 7.0.1
+#   - name: geerlingguy.pip
+#     version: 2.2.0
