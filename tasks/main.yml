@@ -22,6 +22,39 @@
   register: copy_ssl_files
   notify: Refresh certificates
 
+- name: Validate SSL files
+  block:
+    - name: Validate certificate
+      ansible.builtin.shell: "openssl x509 -noout -modulus -in {{ ssl__directory }}/certificate.pem"
+      changed_when: false
+
+    - name: Validate private key
+      ansible.builtin.shell: "openssl rsa -noout -modulus -in {{ ssl__directory }}/private_key.pem"
+      changed_when: false
+
+    - name: Validate certificate is in PEM format
+      ansible.builtin.shell: "openssl x509 -inform PEM -in {{ ssl__directory }}/certificate.pem"
+      changed_when: false
+
+    - name: Validate private key is in PEM format
+      ansible.builtin.shell: "openssl rsa -inform PEM -in {{ ssl__directory }}/private_key.pem"
+      changed_when: false
+
+    - name: Get certificate modulus
+      ansible.builtin.shell: "openssl x509 -noout -modulus -in {{ ssl__directory }}/certificate.pem"
+      register: certificate_modulus
+      changed_when: false
+
+    - name: Get private key modulus
+      ansible.builtin.shell: "openssl rsa -noout -modulus -in {{ ssl__directory }}/private_key.pem"
+      register: private_key_modulus
+      changed_when: false
+
+    - name: Validate certificate and private key match
+      ansible.builtin.fail:
+        msg: "Certificate and private key do not match"
+      when: certificate_modulus.stdout != private_key_modulus.stdout
+
 # Build and copy in two steps for idempotence/change events.
 - name: Ensure fullchain.pem
   block:
