@@ -1,0 +1,1 @@
+`chain.pem` is an intentionally empty file which will be used if no `chain.pem` is provided (e.g. self-signed).

@@ -1,1 +1,2 @@
 ---
+ssl__directory: /etc/ssl/local/

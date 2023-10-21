@@ -2,7 +2,7 @@
 galaxy_info:
   author: Marc Kohaupt
   namespace: debuglevel
-  role_name: template
+  role_name: ssl
   description: your role description
   #company: your company (optional)
 

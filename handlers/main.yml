@@ -1,2 +1,5 @@
 ---
-# handlers file for borg
+- name: Refresh certificates
+  become: true
+  ansible.builtin.command:
+    cmd: /usr/sbin/update-ca-certificates

@@ -1,8 +1,27 @@
+import datetime as dt
+
 """Role testing files using testinfra."""
+
+def test_updated(host):
+    """Validate files updated"""
+
+    files_names = [
+        "/etc/ssl/certs/ca-certificates.crt",
+    ]
+
+    for file_name in files_names:
+        file = host.file(file_name)
+
+        now = dt.datetime.today()
+
+        assert file.exists
+        assert (now - file.mtime).total_seconds() < 60
+
 
 def test_directories(host):
     """Validate service directories exists."""
     directories = [
+        "/etc/ssl/local/",
     ]
 
     for directory in directories:
@@ -15,6 +34,10 @@ def test_files(host):
     """Validate files existing"""
 
     files_names = [
+        "/etc/ssl/local/certificate.pem",
+        "/etc/ssl/local/private_key.pem",
+        "/etc/ssl/local/chain.pem",
+        "/etc/ssl/local/fullchain.pem",
     ]
 
     for file_name in files_names:

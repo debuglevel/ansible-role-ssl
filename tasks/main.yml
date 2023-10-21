@@ -1,1 +1,41 @@
 ---
+- name: Ensure certificates directory
+  ansible.builtin.file:
+    path: "{{ ssl__directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Ensure SSL files
+  become: true
+  ansible.builtin.copy:
+    src: "ssl/{{ item }}"
+    dest: "{{ ssl__directory }}"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - "certificate.pem"
+    - "chain.pem"
+    - "private_key.pem"
+  register: copy_ssl_files
+  notify: Refresh certificates
+
+# Build and copy in two steps for idempotence/change events.
+- name: Ensure fullchain.pem
+  block:
+    - name: Build fullchain.pem
+      become: true
+      ansible.builtin.shell: "cat {{ ssl__directory }}/certificate.pem {{ ssl__directory }}/chain.pem > {{ ssl__directory }}/fullchain_.pem"
+      when: copy_ssl_files.changed
+
+    - name: Copy fullchain.pem
+      become: true
+      ansible.builtin.copy:
+        remote_src: true
+        src: "{{ ssl__directory }}/fullchain_.pem"
+        dest: "{{ ssl__directory }}/fullchain.pem"
+        owner: root
+        group: root
+        mode: "0644"
