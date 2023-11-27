@@ -1,2 +1,3 @@
 ---
 ssl__directory: /etc/ssl/local/
+ssl__id: example.org
