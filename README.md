@@ -13,6 +13,12 @@ Role Variables
 
 <!-- A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well. -->
 
+* `ssl__id` assignes a specific SSL cert/key files an ID.
+You can then use this ID on multiple hosts if wanted.
+Put your files in `files/ssl/<id>/`.
+(Please add an empty `chain.pem` if you do not have one.)
+* `ssl__directory` is where your SSL cert/key files should be copied to.
+
 Dependencies
 ------------
 

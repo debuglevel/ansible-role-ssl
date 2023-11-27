@@ -10,7 +10,7 @@
 - name: Ensure SSL files
   become: true
   ansible.builtin.copy:
-    src: "ssl/{{ item }}"
+    src: "ssl/{{ ssl__id }}/{{ item }}"
     dest: "{{ ssl__directory }}"
     owner: root
     group: root
