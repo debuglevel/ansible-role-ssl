@@ -48,8 +48,8 @@ Using
 
 ```
 roles:
-  - name: debuglevel.template
-    src: https://github.com/debuglevel/ansible-role-template
+  - name: debuglevel.ssl
+    src: https://github.com/debuglevel/ansible-role-ssl
     version: <commit hash>
 ```
 
