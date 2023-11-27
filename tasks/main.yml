@@ -60,7 +60,8 @@
   block:
     - name: Build fullchain.pem
       become: true
-      ansible.builtin.shell: "cat {{ ssl__directory }}/certificate.pem {{ ssl__directory }}/chain.pem > {{ ssl__directory }}/fullchain_.pem"
+      # Ensure there is at least one newline between both certificates.
+      ansible.builtin.shell: "cat {{ ssl__directory }}/certificate.pem > {{ ssl__directory }}/fullchain_.pem && echo >> {{ ssl__directory }}/fullchain_.pem && cat {{ ssl__directory }}/chain.pem >> {{ ssl__directory }}/fullchain_.pem"
       when: copy_ssl_files.changed
 
     - name: Copy fullchain.pem

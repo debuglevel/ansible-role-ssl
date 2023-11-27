@@ -46,6 +46,23 @@ def test_files(host):
         assert file.exists
         assert file.is_file
 
+def test_bad_concatenation(host):
+    """Validate files are not concatenated badly"""
+
+    # This would happen if there is no new line in the SSL files
+
+    files_names = [
+        "/etc/ssl/local/fullchain.pem",
+    ]
+
+    for file_name in files_names:
+        file = host.file(file_name)
+
+        # print(file.content_string)
+
+        assert not file.contains("----------")
+        assert not file.contains("---------- ----------")
+
 # TODO: Does not seem to work on molecule.
 # def test_service(host):
 #     """Validate service is valid."""
